@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Activity, Star, GitFork, Users } from 'lucide-react';
+import { Github, Activity, Users, UserPlus, Code2 } from 'lucide-react';
 import { SiLeetcode } from 'react-icons/si';
 
 interface GithubData {
   followers: number;
+  following: number;
   public_repos: number;
-  total_stars: number;
+  public_gists: number;
 }
 
 interface LeetcodeData {
-  totalSolved: number;
+  solvedProblem: number;
   easySolved: number;
   mediumSolved: number;
   hardSolved: number;
-  ranking: number;
 }
 
 export const Stats: React.FC = () => {
@@ -28,23 +28,23 @@ export const Stats: React.FC = () => {
       .then(data => {
         setGithubData({
           followers: data.followers || 0,
+          following: data.following || 0,
           public_repos: data.public_repos || 0,
-          total_stars: 15 // Placeholder for total stars across repos as it needs multiple API calls
+          public_gists: data.public_gists || 0
         });
       })
       .catch(console.error);
 
-    // Fetch LeetCode Data (Using a known public proxy/API for LeetCode stats)
-    fetch('https://leetcode-stats-api.herokuapp.com/Pooja_K_K')
+    // Fetch LeetCode Data via reliable API
+    fetch('https://alfa-leetcode-api.onrender.com/Pooja_K_K/solved')
       .then(res => res.json())
       .then(data => {
-        if (data.status === 'success') {
+        if (data && data.solvedProblem !== undefined) {
           setLeetcodeData({
-            totalSolved: data.totalSolved,
+            solvedProblem: data.solvedProblem,
             easySolved: data.easySolved,
             mediumSolved: data.mediumSolved,
             hardSolved: data.hardSolved,
-            ranking: data.ranking,
           });
         }
       })
@@ -82,25 +82,25 @@ export const Stats: React.FC = () => {
                 <div className="flex items-center gap-2 text-gray-400 mb-2">
                   <Activity size={16} /> Repositories
                 </div>
-                <div className="text-3xl font-bold text-white">{githubData?.public_repos || '...'}</div>
+                <div className="text-3xl font-bold text-white">{githubData?.public_repos ?? '...'}</div>
               </div>
               <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                 <div className="flex items-center gap-2 text-gray-400 mb-2">
                   <Users size={16} /> Followers
                 </div>
-                <div className="text-3xl font-bold text-white">{githubData?.followers || '...'}</div>
+                <div className="text-3xl font-bold text-white">{githubData?.followers ?? '...'}</div>
               </div>
               <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                 <div className="flex items-center gap-2 text-gray-400 mb-2">
-                  <Star size={16} /> Stars Earned
+                  <UserPlus size={16} /> Following
                 </div>
-                <div className="text-3xl font-bold text-white">{githubData?.total_stars || '...'}</div>
+                <div className="text-3xl font-bold text-white">{githubData?.following ?? '...'}</div>
               </div>
               <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                 <div className="flex items-center gap-2 text-gray-400 mb-2">
-                  <GitFork size={16} /> Commits
+                  <Code2 size={16} /> Public Gists
                 </div>
-                <div className="text-3xl font-bold text-white">500+</div>
+                <div className="text-3xl font-bold text-white">{githubData?.public_gists ?? '...'}</div>
               </div>
             </div>
           </motion.div>
@@ -127,12 +127,12 @@ export const Stats: React.FC = () => {
                 <svg className="w-full h-full transform -rotate-90">
                   <circle cx="64" cy="64" r="60" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-white/10" />
                   <circle cx="64" cy="64" r="60" stroke="currentColor" strokeWidth="8" fill="transparent" 
-                    strokeDasharray={377} strokeDashoffset={leetcodeData ? 377 - (377 * leetcodeData.totalSolved) / 3000 : 377} 
+                    strokeDasharray={377} strokeDashoffset={leetcodeData ? 377 - (377 * leetcodeData.solvedProblem) / 500 : 377} 
                     className="text-yellow-500 transition-all duration-1000 ease-out" 
                   />
                 </svg>
                 <div className="absolute flex flex-col items-center">
-                  <span className="text-2xl font-bold text-white">{leetcodeData?.totalSolved || '...'}</span>
+                  <span className="text-2xl font-bold text-white">{leetcodeData?.solvedProblem ?? '...'}</span>
                   <span className="text-xs text-gray-400">Solved</span>
                 </div>
               </div>
@@ -142,28 +142,28 @@ export const Stats: React.FC = () => {
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-green-400 font-medium">Easy</span>
-                    <span className="text-white font-bold">{leetcodeData?.easySolved || '...'}</span>
+                    <span className="text-white font-bold">{leetcodeData?.easySolved ?? '...'}</span>
                   </div>
                   <div className="w-full bg-white/10 rounded-full h-2">
-                    <div className="bg-green-400 h-2 rounded-full" style={{ width: leetcodeData ? `${(leetcodeData.easySolved / leetcodeData.totalSolved) * 100}%` : '0%' }}></div>
+                    <div className="bg-green-400 h-2 rounded-full" style={{ width: leetcodeData ? `${(leetcodeData.easySolved / leetcodeData.solvedProblem) * 100}%` : '0%' }}></div>
                   </div>
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-yellow-500 font-medium">Medium</span>
-                    <span className="text-white font-bold">{leetcodeData?.mediumSolved || '...'}</span>
+                    <span className="text-white font-bold">{leetcodeData?.mediumSolved ?? '...'}</span>
                   </div>
                   <div className="w-full bg-white/10 rounded-full h-2">
-                    <div className="bg-yellow-500 h-2 rounded-full" style={{ width: leetcodeData ? `${(leetcodeData.mediumSolved / leetcodeData.totalSolved) * 100}%` : '0%' }}></div>
+                    <div className="bg-yellow-500 h-2 rounded-full" style={{ width: leetcodeData ? `${(leetcodeData.mediumSolved / leetcodeData.solvedProblem) * 100}%` : '0%' }}></div>
                   </div>
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-red-500 font-medium">Hard</span>
-                    <span className="text-white font-bold">{leetcodeData?.hardSolved || '...'}</span>
+                    <span className="text-white font-bold">{leetcodeData?.hardSolved ?? '...'}</span>
                   </div>
                   <div className="w-full bg-white/10 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full" style={{ width: leetcodeData ? `${(leetcodeData.hardSolved / leetcodeData.totalSolved) * 100}%` : '0%' }}></div>
+                    <div className="bg-red-500 h-2 rounded-full" style={{ width: leetcodeData ? `${(leetcodeData.hardSolved / leetcodeData.solvedProblem) * 100}%` : '0%' }}></div>
                   </div>
                 </div>
               </div>
