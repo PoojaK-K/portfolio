@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, X } from 'lucide-react';
+import { Github, X } from 'lucide-react';
 
 const projects = [
   {
@@ -81,16 +81,6 @@ export const Projects: React.FC = () => {
             </motion.h3>
           </div>
           
-          <motion.a 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            href="https://github.com/PoojaK-K" 
-            target="_blank"
-            className="flex items-center gap-2 text-primary hover:text-white transition-colors"
-          >
-            View GitHub Profile <ExternalLink size={16} />
-          </motion.a>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -183,10 +173,6 @@ export const Projects: React.FC = () => {
                   <a href={selectedProject.github} className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium flex items-center gap-2 transition-colors">
                     <Github size={20} />
                     Source Code
-                  </a>
-                  <a href={selectedProject.live} className="px-6 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-medium flex items-center gap-2 transition-colors">
-                    <ExternalLink size={20} />
-                    Live Demo
                   </a>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, ArrowRight, Download, Code2, Database, BrainCircuit, Layout } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowRight, Code2, Database, BrainCircuit, Layout } from 'lucide-react';
 import { SiLeetcode } from 'react-icons/si';
 
 const roles = [
@@ -63,10 +63,6 @@ export const Hero: React.FC = () => {
             <a href="#projects" className="px-6 py-3 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-all flex items-center gap-2 group">
               View Projects
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a href="/resume.pdf" target="_blank" className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all flex items-center gap-2 text-white font-medium">
-              <Download size={18} />
-              Resume
             </a>
           </motion.div>
 
