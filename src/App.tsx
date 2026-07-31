@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { CustomCursor } from './components/ui/CustomCursor';
 import { Background } from './components/ui/Background';
 import { Navbar } from './components/ui/Navbar';

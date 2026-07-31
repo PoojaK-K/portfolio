@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Award, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 const certifications = [
   { name: 'Python Programming', issuer: 'Livewire India' },
